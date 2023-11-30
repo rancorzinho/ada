@@ -46,7 +46,7 @@ export interface IJob {
         url: string;
     };
     concurrency?: IConcurrency | string;
-    output?: IDefaultKeyPair;
+    outputs?: IDefaultKeyPair;
     env?: IDefaultKeyPair;
     with?: IDefaultKeyPair;
     secrets?: IDefaultKeyPair | 'inherit';
@@ -68,7 +68,7 @@ export declare class JobClass {
         url: string;
     };
     concurrency?: IConcurrency | string;
-    output?: IDefaultKeyPair;
+    outputs?: IDefaultKeyPair;
     env?: IDefaultKeyPair;
     with?: IDefaultKeyPair;
     secrets?: IDefaultKeyPair | 'inherit';

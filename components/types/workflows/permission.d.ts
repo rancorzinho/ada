@@ -1,4 +1,4 @@
-declare type PermissionScope = 'read' | 'write' | 'none';
+type PermissionScope = 'read' | 'write' | 'none';
 interface Permission {
     actions?: PermissionScope;
     checks?: PermissionScope;
@@ -14,5 +14,5 @@ interface Permission {
     'security-events'?: PermissionScope;
     statuses?: PermissionScope;
 }
-export declare type IPermission = Permission | 'read-all' | 'write-all' | null;
+export type IPermission = Permission | 'read-all' | 'write-all' | null;
 export {};

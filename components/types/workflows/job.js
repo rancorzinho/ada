@@ -12,7 +12,7 @@ class JobClass {
         this.uses = jobArgs.uses;
         this.environment = jobArgs.environment;
         this.concurrency = jobArgs.concurrency;
-        this.output = jobArgs.output;
+        this.outputs = jobArgs.outputs;
         this.env = jobArgs.env;
         this.with = jobArgs.with;
         this.secrets = jobArgs.secrets;

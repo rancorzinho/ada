@@ -14,10 +14,10 @@ class Context {
         console.log(value);
     }
 }
+exports.Context = Context;
 tslib_1.__decorate([
     changeValue(100)
 ], Context.prototype, "context", void 0);
-exports.Context = Context;
 const banana = new Context();
 banana.context.runner.os = "Linux";
 //# sourceMappingURL=context.js.map

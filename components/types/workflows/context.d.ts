@@ -8,7 +8,7 @@ import { IRunnerContext } from './context/runner';
 import { ISecretsContext } from './context/secrets';
 import { IStepsContext } from './context/steps';
 import { IStrategyContext } from './context/strategy';
-export declare type Contexts = IJobContext & IEnvContext & IGithubContext & IInputsContext & IRunnerContext & INeedsContext & ISecretsContext & IMatrixContext & IStepsContext & IStrategyContext;
+export type Contexts = IJobContext & IEnvContext & IGithubContext & IInputsContext & IRunnerContext & INeedsContext & ISecretsContext & IMatrixContext & IStepsContext & IStrategyContext;
 export declare class Context {
     context: Contexts;
     constructor();
