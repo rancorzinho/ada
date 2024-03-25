@@ -5,21 +5,21 @@ interface IEventArgs {
     paths?: string[] | string;
     tags?: string[] | string;
 }
-type BranchProtectionRuleTypes = 'created' | 'edited' | 'deleted';
+declare type BranchProtectionRuleTypes = 'created' | 'edited' | 'deleted';
 interface IBranchProtectionRuleArgs extends IEventArgs {
     types?: BranchProtectionRuleTypes[] | BranchProtectionRuleTypes;
 }
 export interface IBranchProtectionRule {
     'branch_protection_rule': IBranchProtectionRuleArgs;
 }
-type ICheckRunTypes = 'created' | 'rerequested' | 'completed' | 'requested_action';
+declare type ICheckRunTypes = 'created' | 'rerequested' | 'completed' | 'requested_action';
 interface ICheckRunArgs extends IEventArgs {
     types?: ICheckRunTypes[] | ICheckRunTypes;
 }
 export interface ICheckRun {
     'check_run': ICheckRunArgs;
 }
-type ICheckSuiteTypes = 'completed';
+declare type ICheckSuiteTypes = 'completed';
 interface ICheckSuiteArgs extends IEventArgs {
     types?: ICheckSuiteTypes[] | ICheckSuiteTypes;
 }
@@ -38,14 +38,14 @@ export interface IDeployment {
 export interface IDeploymentStatus {
     'deployment_status': IEventArgs;
 }
-type IDiscussionTypes = 'created' | 'edited' | 'deleted' | 'transferred' | 'pinned' | 'unpinned' | 'labeled' | 'unlabeled' | 'locked' | 'unlocked' | 'category_changed' | 'answered' | 'unanswered	';
+declare type IDiscussionTypes = 'created' | 'edited' | 'deleted' | 'transferred' | 'pinned' | 'unpinned' | 'labeled' | 'unlabeled' | 'locked' | 'unlocked' | 'category_changed' | 'answered' | 'unanswered	';
 interface IDiscussionArgs extends IEventArgs {
     types?: IDiscussionTypes[] | IDiscussionTypes;
 }
 export interface IDiscussion {
     'discussion': IDiscussionArgs;
 }
-type IDiscussionCommentTypes = 'created' | 'edited' | 'deleted';
+declare type IDiscussionCommentTypes = 'created' | 'edited' | 'deleted';
 interface IDiscussionCommentArgs extends IEventArgs {
     types?: IDiscussionCommentTypes[] | IDiscussionCommentTypes;
 }
@@ -58,28 +58,28 @@ export interface IFork {
 export interface IGollum {
     'gollum': IEventArgs;
 }
-type IIssueCommentTypes = 'created' | 'edited' | 'deleted';
+declare type IIssueCommentTypes = 'created' | 'edited' | 'deleted';
 interface IIssueCommentArgs extends IEventArgs {
     types?: IIssueCommentTypes[] | IIssueCommentTypes;
 }
 export interface IIssueComment {
     'issue_comment': IIssueCommentArgs;
 }
-type IIssueTypes = 'opened' | 'edited' | 'deleted' | 'transferred' | 'pinned' | 'unpinned' | 'closed' | 'reopened' | 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'locked' | 'unlocked' | 'milestoned' | 'demilestoned';
+declare type IIssueTypes = 'opened' | 'edited' | 'deleted' | 'transferred' | 'pinned' | 'unpinned' | 'closed' | 'reopened' | 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'locked' | 'unlocked' | 'milestoned' | 'demilestoned';
 interface IIssueArgs extends IEventArgs {
     types?: IIssueTypes[] | IIssueTypes;
 }
 export interface IIssue {
     'issue': IIssueArgs;
 }
-type ILabelTypes = 'created' | 'edited' | 'deleted';
+declare type ILabelTypes = 'created' | 'edited' | 'deleted';
 interface ILabelArgs extends IEventArgs {
     types?: ILabelTypes[] | ILabelTypes;
 }
 export interface ILabel {
     'label': ILabelArgs;
 }
-type IMilestoneTypes = 'created' | 'closed' | 'opened' | 'edited' | 'deleted';
+declare type IMilestoneTypes = 'created' | 'closed' | 'opened' | 'edited' | 'deleted';
 interface IMilestoneArgs extends IEventArgs {
     types?: IMilestoneTypes[] | IMilestoneTypes;
 }
@@ -89,21 +89,21 @@ export interface IMilestone {
 export interface IPageBuild {
     'page_build': IEventArgs;
 }
-type IProjectTypes = 'created' | 'closed' | 'reopened' | 'edited' | 'deleted';
+declare type IProjectTypes = 'created' | 'closed' | 'reopened' | 'edited' | 'deleted';
 interface IProjectArgs extends IEventArgs {
     types?: IProjectTypes[] | IProjectTypes;
 }
 export interface IProject {
     'project': IProjectArgs;
 }
-type IProjectCardTypes = 'created' | 'moved' | 'converted' | 'edited' | 'deleted';
+declare type IProjectCardTypes = 'created' | 'moved' | 'converted' | 'edited' | 'deleted';
 interface IProjectCardArgs extends IEventArgs {
     types?: IProjectCardTypes[] | IProjectCardTypes;
 }
 export interface IProjectCard {
     'project_card': IProjectCardArgs;
 }
-type IProjectColumnTypes = 'created' | 'updated' | 'moved' | 'deleted';
+declare type IProjectColumnTypes = 'created' | 'updated' | 'moved' | 'deleted';
 interface IProjectColumnArgs extends IEventArgs {
     types?: IProjectColumnTypes[] | IProjectColumnTypes;
 }
@@ -113,28 +113,28 @@ export interface IProjectColumn {
 export interface IPublic {
     'public': IEventArgs;
 }
-type IPullRequestTypes = 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'opened' | 'edited' | 'closed' | 'reopened' | 'synchronize' | 'converted_to_draft' | 'ready_for_review' | 'locked' | 'unlocked' | 'review_requested' | 'review_request_removed' | 'auto_merge_enabled' | 'auto_merge_disabled';
+declare type IPullRequestTypes = 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'opened' | 'edited' | 'closed' | 'reopened' | 'synchronize' | 'converted_to_draft' | 'ready_for_review' | 'locked' | 'unlocked' | 'review_requested' | 'review_request_removed' | 'auto_merge_enabled' | 'auto_merge_disabled';
 interface IPullRequestArgs extends IEventArgs {
     types?: IPullRequestTypes[] | IPullRequestTypes;
 }
 export interface IPullRequest {
     'pull_request': IPullRequestArgs;
 }
-type IPullRequestReviewTypes = 'submitted' | 'edited' | 'dismissed';
+declare type IPullRequestReviewTypes = 'submitted' | 'edited' | 'dismissed';
 interface IPullRequestReviewArgs extends IEventArgs {
     types?: IPullRequestReviewTypes[] | IPullRequestReviewTypes;
 }
 export interface IPullRequestReview {
     'pull_request_review': IPullRequestReviewArgs;
 }
-type IPullRequestReviewCommentTypes = 'submitted' | 'edited' | 'dismissed';
+declare type IPullRequestReviewCommentTypes = 'submitted' | 'edited' | 'dismissed';
 interface IPullRequestReviewCommentArgs extends IEventArgs {
     types?: IPullRequestReviewCommentTypes[] | IPullRequestReviewCommentTypes;
 }
 export interface IPullRequestReviewComment {
     'pull_request_review_comment': IPullRequestReviewCommentArgs;
 }
-type IPullRequestTargetTypes = 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'opened' | 'edited' | 'closed' | 'reopened' | 'synchronize' | 'converted_to_draft' | 'ready_for_review' | 'locked' | 'unlocked' | 'review_requested' | 'review_request_removed' | 'auto_merge_enabled' | 'auto_merge_disabled';
+declare type IPullRequestTargetTypes = 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'opened' | 'edited' | 'closed' | 'reopened' | 'synchronize' | 'converted_to_draft' | 'ready_for_review' | 'locked' | 'unlocked' | 'review_requested' | 'review_request_removed' | 'auto_merge_enabled' | 'auto_merge_disabled';
 interface IPullRequestTargetArgs extends IEventArgs {
     types?: IPullRequestTargetTypes[] | IPullRequestTargetTypes;
 }
@@ -144,14 +144,14 @@ export interface IPullRequestTarget {
 export interface IPush {
     'push': IEventArgs;
 }
-type IRegistryPackageTypes = 'published' | 'updated';
+declare type IRegistryPackageTypes = 'published' | 'updated';
 interface IRegistryPackageArgs extends IEventArgs {
     types?: IRegistryPackageTypes[] | IRegistryPackageTypes;
 }
 export interface IRegistryPackage {
     'registry_package': IRegistryPackageArgs;
 }
-type IReleaseTypes = 'published' | 'updated';
+declare type IReleaseTypes = 'published' | 'updated';
 interface IReleaseArgs extends IEventArgs {
     types?: IReleaseTypes[] | IReleaseTypes;
 }
@@ -173,7 +173,7 @@ export interface ISchedule {
 export interface IStatus {
     'status': IEventArgs;
 }
-type IWatchTypes = 'started';
+declare type IWatchTypes = 'started';
 interface IWatchArgs extends IEventArgs {
     types?: IWatchTypes[] | IWatchTypes;
 }
@@ -222,7 +222,7 @@ interface IWorkflowDispatchArgs extends IEventArgs {
 export interface IWorkflowDispatch {
     'workflow_dispatch': IWorkflowDispatchArgs;
 }
-type IWorkflowRunTypes = 'completed' | 'requested';
+declare type IWorkflowRunTypes = 'completed' | 'requested';
 interface IWorkflowRunArgs extends IEventArgs {
     workflows: string[];
     types: IWorkflowRunTypes[] | IWorkflowRunTypes;
@@ -230,5 +230,5 @@ interface IWorkflowRunArgs extends IEventArgs {
 export interface IWorkflowRun {
     'workflow_run': IWorkflowRunArgs;
 }
-export type IEvents = IBranchProtectionRule | ICheckRun | ICheckSuite | ICreate | IDelete | IDeployment | IDeploymentStatus | IDiscussion | IDiscussionComment | IFork | IGollum | IIssueComment | IIssue | ILabel | IMilestone | IPageBuild | IProject | IProjectCard | IProjectColumn | IPublic | IPullRequest | IPullRequestReview | IPullRequestReviewComment | IPullRequestTarget | IPush | IRegistryPackage | IRelease | IRepositoryDispatch | ISchedule | IStatus | IWatch | IWorkflowCall | IWorkflowDispatch | IWorkflowRun;
+export declare type IEvents = IBranchProtectionRule | ICheckRun | ICheckSuite | ICreate | IDelete | IDeployment | IDeploymentStatus | IDiscussion | IDiscussionComment | IFork | IGollum | IIssueComment | IIssue | ILabel | IMilestone | IPageBuild | IProject | IProjectCard | IProjectColumn | IPublic | IPullRequest | IPullRequestReview | IPullRequestReviewComment | IPullRequestTarget | IPush | IRegistryPackage | IRelease | IRepositoryDispatch | ISchedule | IStatus | IWatch | IWorkflowCall | IWorkflowDispatch | IWorkflowRun;
 export {};
