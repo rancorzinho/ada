@@ -80,6 +80,7 @@ export class JobClass {
   public container?: IContainer | string
   public services?: IService
   public steps: Step[]
+  public 'timeout-minutes': Number
 
   constructor(name: string, jobArgs: IJob) {
     this.name = name 
@@ -100,5 +101,6 @@ export class JobClass {
     this.container = jobArgs.container
     this.services = jobArgs.services
     this.steps = jobArgs.steps
+    this['timeout-minutes'] = 60
   }
 }
