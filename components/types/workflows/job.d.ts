@@ -78,6 +78,7 @@ export declare class JobClass {
     container?: IContainer | string;
     services?: IService;
     steps: Step[];
+    'timeout-minutes': Number;
     constructor(name: string, jobArgs: IJob);
 }
 export {};

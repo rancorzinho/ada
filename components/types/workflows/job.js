@@ -21,6 +21,7 @@ class JobClass {
         this.container = jobArgs.container;
         this.services = jobArgs.services;
         this.steps = jobArgs.steps;
+        this['timeout-minutes'] = 60;
     }
 }
 exports.JobClass = JobClass;
