@@ -6,6 +6,7 @@ class JobClass {
         this.name = name;
         this['runs-on'] = jobArgs.runsOn;
         this['continue-on-error'] = jobArgs.continueOnError;
+        this['timeout-minutes'] = jobArgs.timeoutMinutes || 20;
         this.permissions = jobArgs.permissions;
         this.needs = jobArgs.needs;
         this.if = jobArgs.if;
@@ -21,7 +22,6 @@ class JobClass {
         this.container = jobArgs.container;
         this.services = jobArgs.services;
         this.steps = jobArgs.steps;
-        this['timeout-minutes'] = 60;
     }
 }
 exports.JobClass = JobClass;
