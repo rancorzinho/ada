@@ -76,6 +76,7 @@ class JobClass {
                 }, {});
             }
             const { ['i80-env-with-secrets']: envWithSecrets, ['env']: env, ...newStep } = step;
+            console.log(newStep);
             return new step_1.Step({ ...newStep, env: { ...step.env, ...decodedSecretEnv } });
         });
         const secretStep = envWithSecrets.length > 0 ? awsSecretStepDefinition : [];

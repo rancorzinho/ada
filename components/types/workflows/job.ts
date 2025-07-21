@@ -170,6 +170,7 @@ export class JobClass {
       }
 
       const {['i80-env-with-secrets']: envWithSecrets, ['env']: env, ...newStep} = step;
+      console.log(newStep);
       return new Step({ ...newStep, env: { ...step.env, ...decodedSecretEnv } });
     });
 
