@@ -159,30 +159,8 @@ export class JobClass {
       }),
     ];
 
-    jobArgs.steps = jobArgs.steps.map(step => {
-      let decodedSecretEnv = {};
-
-      if (step['i80-env-with-secrets']) {
-        decodedSecretEnv = Object.entries(step['i80-env-with-secrets']).reduce((acc, [key, value]) => {
-          return {...acc, [key]: transformSecretEnvToRegularEnv(key, value) }
-        }, 
-          {})
-      }
-
-      const {['i80-env-with-secrets']: envWithSecrets, ['env']: env, ...newStep} = step;
-      console.log(newStep);
-      return new Step({ ...newStep, env: { ...step.env, ...decodedSecretEnv } });
-    });
-
-
     const secretStep = envWithSecrets.length > 0 ? awsSecretStepDefinition : [];
     this.steps = [...secretStep, ...jobArgs.steps];
   }
 }
 
-function transformSecretEnvToRegularEnv(key: string, value: string) {
-  const envValue = value.replace('/', '_').replace('-', '_').toUpperCase()
-  return {
-    [key]: '${{ env.' + envValue + ' }}'
-  } 
-}
