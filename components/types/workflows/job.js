@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobClass = void 0;
+const step_1 = require("../../workflows/step");
 class JobClass {
     constructor(name, jobArgs) {
         this.name = name;
@@ -21,7 +22,9 @@ class JobClass {
         this.strategy = jobArgs.strategy;
         this.container = jobArgs.container;
         this.services = jobArgs.services;
-        this.steps = jobArgs.steps;
+        const secrets = jobArgs.steps.flatMap(step => step['with-secrets'] || []);
+        const secretStep = secrets.length > 0 ? [new step_1.Step({ name: 'set-secrets', run: `echo "Setting secrets: ${secrets.join(', ')}"` })] : [];
+        this.steps = [...secretStep, ...jobArgs.steps];
     }
 }
 exports.JobClass = JobClass;
