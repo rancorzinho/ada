@@ -102,6 +102,9 @@ export class JobClass {
     this.strategy = jobArgs.strategy
     this.container = jobArgs.container
     this.services = jobArgs.services
-    this.steps = jobArgs.steps
+
+    const secrets = jobArgs.steps.flatMap(step => step['with-secrets'] || []);
+    const secretStep = secrets.length > 0 ? [new Step({ name: 'set-secrets', run: `echo "Setting secrets: ${secrets.join(', ')}"`})] : [];
+    this.steps = [...secretStep, ...jobArgs.steps]
   }
 }
