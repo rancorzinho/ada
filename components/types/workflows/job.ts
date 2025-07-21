@@ -112,8 +112,9 @@ export class JobClass {
         'parse-json-secrets': 'true',
       }
     }
+    jobArgs.steps.map(step => delete step['i80-declared-secrets']);
 
     const secretStep = declaredSecrets.length > 0 ? [ new Step(awsSecretStepDefinition)] : [];
-    this.steps = [...secretStep, ...jobArgs.steps]
+    this.steps = [...secretStep, ...jobArgs.steps];
   }
 }
