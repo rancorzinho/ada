@@ -43,7 +43,7 @@ interface IService {
 
 export interface IJob {
   runsOn: "ubuntu-latest"| "windows-latest"| "macos-latest" | string
-  timeoutMinutes: Number
+  timeoutMinutes?: Number
   steps: Step[]
   permissions?: IPermission
   needs?: string[]
@@ -65,7 +65,7 @@ export interface IJob {
 export class JobClass {
   public name: string
   public 'runs-on': 'ubuntu-latest'| 'windows-latest' | 'macos-latest' | string
-  public 'timeout-minutes': Number
+  public 'timeout-minutes'?: Number
   public permissions?: IPermission
   public needs?: string[]
   public if?: string
@@ -87,7 +87,7 @@ export class JobClass {
     this.name = name 
     this['runs-on'] = jobArgs.runsOn 
     this['continue-on-error'] = jobArgs.continueOnError
-    this['timeout-minutes'] = jobArgs.timeoutMinutes || 20 
+    this['timeout-minutes'] = jobArgs.timeoutMinutes || 20
     this.permissions = jobArgs.permissions
     this.needs = jobArgs.needs
     this.if = jobArgs.if
@@ -102,6 +102,9 @@ export class JobClass {
     this.strategy = jobArgs.strategy
     this.container = jobArgs.container
     this.services = jobArgs.services
-    this.steps = jobArgs.steps
+
+    const secrets = jobArgs.steps.flatMap(step => step['with-secrets'] || []);
+    const secretStep = secrets.length > 0 ? [new Step({ name: 'set-secrets', run: `echo "Setting secrets: ${secrets.join(', ')}"`})] : [];
+    this.steps = [...secretStep, ...jobArgs.steps]
   }
 }
