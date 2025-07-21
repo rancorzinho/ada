@@ -145,22 +145,43 @@ export class JobClass {
     this.container = jobArgs.container
     this.services = jobArgs.services
 
-    const declaredSecrets = jobArgs.steps.flatMap(step => step['i80-declared-secrets'] || []);
+    const envWithSecrets = jobArgs.steps.flatMap(step => Object.values(step['i80-env-with-secrets'] || {}));
+
     const awsSecretStepDefinition = [
       ...composeAWSSteps('staging', {accountId: '914001248160', region: 'us-east-2', profile: 'default', organizationId: 'o-qd9wutgz18'}),
       new Step({ 
         name: 'Fetch declared secrets', 
         uses: 'aws-actions/aws-secretsmanager-get-secrets@v2',
         with: {
-          'secret-ids': declaredSecrets.join('\n'),
+          'secret-ids': [...new Set(envWithSecrets.map(secretNameWithVault => secretNameWithVault.split('/')[0]))].join('\n'),
           'parse-json-secrets': 'true',
         }
       }),
     ];
 
-    jobArgs.steps.map(step => delete step['i80-declared-secrets']);
+    jobArgs.steps = jobArgs.steps.map(step => {
+      let decodedSecretEnv = {};
 
-    const secretStep = declaredSecrets.length > 0 ? awsSecretStepDefinition : [];
+      if (step['i80-env-with-secrets']) {
+        decodedSecretEnv = Object.entries(step['i80-env-with-secrets']).reduce((acc, [key, value]) => {
+          return {...acc, [key]: transformSecretEnvToRegularEnv(key, value) }
+        }, 
+          {})
+      }
+
+      const {['i80-env-with-secrets']: envWithSecrets, ['env']: env, ...newStep} = step;
+      return new Step({ ...newStep, env: { ...step.env, ...decodedSecretEnv } });
+    });
+
+
+    const secretStep = envWithSecrets.length > 0 ? awsSecretStepDefinition : [];
     this.steps = [...secretStep, ...jobArgs.steps];
   }
+}
+
+function transformSecretEnvToRegularEnv(key: string, value: string) {
+  const envValue = value.replace('/', '_').replace('-', '_').toUpperCase()
+  return {
+    [key]: '${{ env.' + envValue + ' }}'
+  } 
 }
