@@ -12,7 +12,7 @@ class StepClass {
         this.with = stepArgs.with;
         this.env = stepArgs.env;
         this.secrets = stepArgs.secrets;
-        this['with-secrets'] = stepArgs.withSecrets;
+        this['i80-declared-secrets'] = stepArgs.i80DeclaredSecrets;
         this['working-directory'] = stepArgs.workingDirectory;
         this['continue-on-error'] = stepArgs.continueOnError;
         this['timeout-minutes'] = stepArgs.timeoutMinutes;

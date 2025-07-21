@@ -22,8 +22,16 @@ class JobClass {
         this.strategy = jobArgs.strategy;
         this.container = jobArgs.container;
         this.services = jobArgs.services;
-        const secrets = jobArgs.steps.flatMap(step => step['with-secrets'] || []);
-        const secretStep = secrets.length > 0 ? [new step_1.Step({ name: 'set-secrets', run: `echo "Setting secrets: ${secrets.join(', ')}"` })] : [];
+        const declaredSecrets = jobArgs.steps.flatMap(step => step['i80-declared-secrets'] || []);
+        const awsSecretStepDefinition = {
+            name: 'Fetch declared secrets',
+            uses: 'aws-actions/aws-secretsmanager-get-secrets@v2',
+            with: {
+                'secret-ids': declaredSecrets.join('\n'),
+                'parse-json-secrets': 'true',
+            }
+        };
+        const secretStep = declaredSecrets.length > 0 ? [new step_1.Step(awsSecretStepDefinition)] : [];
         this.steps = [...secretStep, ...jobArgs.steps];
     }
 }

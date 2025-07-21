@@ -12,7 +12,7 @@ export interface IStep {
     secrets?: IDefaultKeyPair;
     continueOnError?: boolean;
     timeoutMinutes?: boolean;
-    withSecrets?: string[];
+    i80DeclaredSecrets?: string[];
 }
 export declare class StepClass implements IStep {
     name: string;
@@ -27,6 +27,6 @@ export declare class StepClass implements IStep {
     'working-directory'?: string;
     'continue-on-error'?: boolean;
     'timeout-minutes'?: boolean;
-    'with-secrets'?: string[];
+    'i80-declared-secrets'?: string[];
     constructor(stepArgs: IStep);
 }
