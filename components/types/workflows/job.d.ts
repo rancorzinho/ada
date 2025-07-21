@@ -1,6 +1,12 @@
 import { IDefaultKeyPair, IWorkflowDefaults, IConcurrency } from './common';
 import { Step } from '../../workflows/step';
 import { IPermission } from './permission';
+export interface AWSProviderConfiguration {
+    accountId: string;
+    region: string;
+    profile: string;
+    organizationId: string;
+}
 interface IMatrix {
     [key: string]: any;
 }

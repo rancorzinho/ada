@@ -2,6 +2,49 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobClass = void 0;
 const step_1 = require("../../workflows/step");
+function composeAWSSteps(environment, awsEnvConfig) {
+    const steps = [
+        {
+            name: 'Add profile credentials to ~/.aws/credentials',
+            run: `
+export OIDC=$(curl -sLS "\${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=180seg" \\
+-H "User-Agent: actions/oidc-client" \\
+-H "X-Correlation-Id: \${{ github.repository }}-\${{ github.ref }}" \\
+-H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \\
+| jq -r '.value')
+
+
+curl \${{ vars.CERBERUS_URL }} -H "Authorization: $OIDC" \\
+-H "Content-Type: application/json" \\
+-d '{"account": "${environment}"}' \\
+-o cerberus_output.json
+
+if jq -e '.error == true' cerberus_output.json >/dev/null; then
+  cat cerberus_output.json
+fi
+
+aws configure set aws_access_key_id $(jq -r '.Credentials | .AccessKeyId' cerberus_output.json) --profile ${awsEnvConfig.profile}
+aws configure set aws_secret_access_key $(jq -r '.Credentials | .SecretAccessKey' cerberus_output.json) --profile ${awsEnvConfig.profile}
+aws configure set aws_session_token $(jq -r '.Credentials | .SessionToken' cerberus_output.json) --profile ${awsEnvConfig.profile}
+aws configure set region ${awsEnvConfig.region} --profile ${awsEnvConfig.profile}`,
+        },
+        {
+            name: 'Unset AWS creds env vars',
+            run: `
+echo "AWS_ACCESS_KEY_ID=" >> $GITHUB_ENV
+echo "AWS_SECRET_ACCESS_KEY=" >> $GITHUB_ENV
+echo "AWS_SESSION_TOKEN=" >> $GITHUB_ENV
+echo "AWS_DEFAULT_REGION=" >> $GITHUB_ENV
+echo "AWS_REGION=" >> $GITHUB_ENV`,
+        },
+        {
+            name: 'Show AWS role to be used',
+            run: `
+aws sts get-caller-identity --profile ${awsEnvConfig.profile} --region ${awsEnvConfig.region}`,
+        }
+    ];
+    return steps.map(step => new step_1.Step(step));
+}
 class JobClass {
     constructor(name, jobArgs) {
         this.name = name;
@@ -23,16 +66,19 @@ class JobClass {
         this.container = jobArgs.container;
         this.services = jobArgs.services;
         const declaredSecrets = jobArgs.steps.flatMap(step => step['i80-declared-secrets'] || []);
-        const awsSecretStepDefinition = {
-            name: 'Fetch declared secrets',
-            uses: 'aws-actions/aws-secretsmanager-get-secrets@v2',
-            with: {
-                'secret-ids': declaredSecrets.join('\n'),
-                'parse-json-secrets': 'true',
-            }
-        };
+        const awsSecretStepDefinition = [
+            ...composeAWSSteps('staging', { accountId: '914001248160', region: 'us-east-2', profile: 'default', organizationId: 'o-qd9wutgz18' }),
+            new step_1.Step({
+                name: 'Fetch declared secrets',
+                uses: 'aws-actions/aws-secretsmanager-get-secrets@v2',
+                with: {
+                    'secret-ids': declaredSecrets.join('\n'),
+                    'parse-json-secrets': 'true',
+                }
+            }),
+        ];
         jobArgs.steps.map(step => delete step['i80-declared-secrets']);
-        const secretStep = declaredSecrets.length > 0 ? [new step_1.Step(awsSecretStepDefinition)] : [];
+        const secretStep = declaredSecrets.length > 0 ? awsSecretStepDefinition : [];
         this.steps = [...secretStep, ...jobArgs.steps];
     }
 }
