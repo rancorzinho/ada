@@ -36,15 +36,6 @@ aws configure set aws_session_token $(jq -r '.Credentials | .SessionToken' cerbe
 aws configure set region ${awsEnvConfig.region} --profile ${awsEnvConfig.profile}`,
     },
     {
-      name: 'Unset AWS creds env vars',
-      run: `
-echo "AWS_ACCESS_KEY_ID=" >> $GITHUB_ENV
-echo "AWS_SECRET_ACCESS_KEY=" >> $GITHUB_ENV
-echo "AWS_SESSION_TOKEN=" >> $GITHUB_ENV
-echo "AWS_DEFAULT_REGION=" >> $GITHUB_ENV
-echo "AWS_REGION=" >> $GITHUB_ENV`,
-    },
-    {
       name: 'Show AWS role to be used',
       run: `
 aws sts get-caller-identity --profile ${awsEnvConfig.profile} --region ${awsEnvConfig.region}`,
